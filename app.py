@@ -23,6 +23,7 @@ def create_stickerbomb_grid(canvas_size, cliparts):
     """
     Creates a stickerbomb collage by placing cliparts in a grid pattern.
     Applies random scaling, rotation, and small positional offsets.
+    Adjusted parameters to encourage more overlap and reduce visible background.
 
     Args:
         canvas_size (tuple): A tuple (width, height) for the canvas size.
@@ -49,8 +50,8 @@ def create_stickerbomb_grid(canvas_size, cliparts):
         # Open and ensure image is RGBA
         img = Image.open(file).convert('RGBA')
 
-        # Scale with a random factor (80-100%) relative to cell size
-        scale_factor = random.uniform(0.8, 1.0)
+        # Scale with a random factor (increased range: 70-110%) relative to cell size
+        scale_factor = random.uniform(0.7, 1.1) # Increased range
         target_w = int(cell_w * scale_factor)
         target_h = int(cell_h * scale_factor)
         # Resize using LANCZOS filter for quality
@@ -65,9 +66,9 @@ def create_stickerbomb_grid(canvas_size, cliparts):
         row = i // cols
         col = i % cols
 
-        # Calculate base position within the cell and add small random offset
-        x = col * cell_w + random.randint(-10, 10)
-        y = row * cell_h + random.randint(-10, 10)
+        # Calculate base position within the cell and add increased random offset (±20)
+        x = col * cell_w + random.randint(-20, 20) # Increased offset
+        y = row * cell_h + random.randint(-20, 20) # Increased offset
 
         # Composite the processed image onto the canvas
         canvas.alpha_composite(img, dest=(x, y))
